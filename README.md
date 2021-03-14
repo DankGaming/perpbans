@@ -5,7 +5,7 @@ This allows you to get all a users friends and check if they are currently banne
 1. Generate a steam API Key at https://steamcommunity.com/dev/apikey
 2. Download the repository as zip and extract it into the desired folder
 3. Open the folder, Then open dist. Open the index.js file
-4. On line 1 add your steam api key so it looks like this: const friends = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=XXXXXXXXXXXXXXXXXXXXXXX"
+4. On line 1 add your steam api key so it looks like this: const steamApi = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=XXXXXXXXXXXXXXXXXXXXXXX"
 
 ## Loading in chrome
 1. Open google chrome
