@@ -59,7 +59,7 @@ const searchSteamID = async steamId => {
   } catch (error) {
     loading.style.display = "none";
     results.style.display = "none";
-    errors.textContent = "This is not a valid steam64 ID";
+    errors.innerHTML = "<b>Error! Possible causes:</b><ul><li>This is not a valid steam64 ID</li><li>User has a private profile</li><li>User has no banned friends</li></ul>";
   }
 };
 

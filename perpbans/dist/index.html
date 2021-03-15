@@ -16,14 +16,14 @@
     <form class="form-data" autocomplete="on" id="apikey">
       <div class="form-group row">
         <label class="col-lg-12"><b>Please enter your <a href="https://steamcommunity.com/dev/apikey" target="_blank">steam API Key:</a></b></label>
-        <input type="text" class="apikey form-control col-lg-12" />
+        <input type="text" class="apikey form-control col-lg-12" required/>
       </div>
       <button class="search-btn col-lg-12 btn btn-success">Save API key</button>
     </form>
     <form class="form-data" autocomplete="on" id="allowsearch">
       <div class="form-group row">
         <label class="col-lg-12"><b>Enter a steam ID:</b></label>
-        <input type="text" class="steamid form-control col-lg-12" />
+        <input type="number" class="steamid form-control col-lg-12" required/>
       </div>
       <button class="search-btn col-lg-12 btn btn-success">Get currently banned friends</button>
     </form>
