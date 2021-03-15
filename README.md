@@ -1,6 +1,8 @@
 # perpbans
 This allows you to get all a users friends and check if they are currently banned
 
+#Your steamAPI Key can not be changed yet! Make sure to check it!
+
 ## How to prepare
 1. Generate a steam API Key at https://steamcommunity.com/dev/apikey
 2. Download the repository as zip and extract it into the desired folder
