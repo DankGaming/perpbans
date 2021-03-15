@@ -7,10 +7,10 @@ else{
   $('#apikey').hide();
   
 }
-
+var key = "";
 var steamApi = "";
 (async () => {
-  const key = await getSteamAPIKey();
+  key = await getSteamAPIKey();
   steamApi = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + key;
 })()
 
@@ -48,9 +48,11 @@ const searchSteamID = async steamId => {
 
     listOfFriends.forEach(function(data){  
       handleRetrieval(data["steamid"]).then((el) => {
-        if(el != null && !el.innerHTML.includes("Unbanned") &&   !el.innerHTML.includes("Expired")){
-          $('#results > tbody:last-child').append("<tr><td><a href=https://steamcommunity.com/profiles/" + data["steamid"] + " target='_blank' >" + data["steamid"] + "</a></td>" + "<td><a href=https://bans.perpheads.com/player/" + data["steamid"] + " target='_blank' >" + el.innerHTML + "</a></td>" + "</tr>");
-        }
+        handleGetSteam(data["steamid"]).then((name) => {
+          if(el != null && !el.innerHTML.includes("Unbanned") &&   !el.innerHTML.includes("Expired")){
+            $('#results > tbody:last-child').append("<tr><td>" + name + "</td><td><a href=https://steamcommunity.com/profiles/" + data["steamid"] + " target='_blank' >" + data["steamid"] + "</a></td>" + "<td><a href=https://bans.perpheads.com/player/" + data["steamid"] + " target='_blank' >" + el.innerHTML + "</a></td>" + "</tr>");
+          }
+        }).catch()
       }).catch();
     })
 
@@ -71,6 +73,14 @@ const handleRetrieval = async steamID => {
   el.innerHTML = user;
 
   return el.getElementsByClassName("duration")[0]
+};
+
+const handleGetSteam = async steamID => {
+  const userRaw = await axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${key}&format=json&steamids=${steamID}`)
+  var table = userRaw.data;
+  var username = table["response"]["players"][0]["personaname"];
+
+  return username
 };
 
 $('#apikey').on("submit", function(e) {
