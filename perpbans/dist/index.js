@@ -1,4 +1,19 @@
-const steamApi = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
+if( getSteamAPIKey() == null){
+  $('#allowsearch').hide();
+  $('#apikey').show();
+}
+else{
+  $('#allowsearch').show();
+  $('#apikey').hide();
+  
+}
+
+var steamApi = "";
+(async () => {
+  const key = await getSteamAPIKey();
+  steamApi = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + key;
+})()
+
 const scambans = "https://bans.perpheads.com/player"
 
 const errors = document.querySelector(".errors");
@@ -11,6 +26,7 @@ errors.textContent = "";
 
 const form = document.querySelector(".form-data");
 const steamid = document.querySelector(".steamid");
+const apikey = document.querySelector(".apikey");
 
 // declare a method to search by country name
 const searchSteamID = async steamId => {
@@ -56,10 +72,33 @@ const handleRetrieval = async steamID => {
 
   return el.getElementsByClassName("duration")[0]
 };
-// declare a function to handle form submission
-const handleSubmit = async e => {
-  e.preventDefault();
-  searchSteamID(steamid.value);
-};
 
-form.addEventListener("submit", e => handleSubmit(e));
+$('#apikey').on("submit", function(e) {
+  e.preventDefault(); // cancel the actual submit
+  saveSteamAPIKey()
+});
+
+$('#allowsearch').on("submit", function(e) {
+  e.preventDefault(); // cancel the actual submit
+  searchSteamID(steamid.value);
+});
+
+function saveSteamAPIKey() {
+  var apiKey = apikey.value;
+  if (!apiKey) {
+    message('Error: No value specified');
+    return;
+  }
+  chrome.storage.sync.set({'steamAPIKey': apiKey}, function() {
+    message('API Key has been stored')
+  });
+}
+
+async function getSteamAPIKey() {
+  return new Promise((resolve, reject) => {
+      chrome.storage.sync.get('steamAPIKey', resolve);
+  }).then(result => {
+    if ("steamAPIKey" == null) return result;
+    else return result["steamAPIKey"];
+  });
+}
